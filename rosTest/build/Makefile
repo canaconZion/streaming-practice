@@ -111,44 +111,44 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named hello_cmake
+# Target rules for targets named test
 
 # Build rule for target.
-hello_cmake: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 hello_cmake
-.PHONY : hello_cmake
+test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test
+.PHONY : test
 
 # fast build rule for target.
-hello_cmake/fast:
-	$(MAKE) -f CMakeFiles/hello_cmake.dir/build.make CMakeFiles/hello_cmake.dir/build
-.PHONY : hello_cmake/fast
+test/fast:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
+.PHONY : test/fast
 
-hello_cmake.o: hello_cmake.cpp.o
+test.o: test.cpp.o
 
-.PHONY : hello_cmake.o
+.PHONY : test.o
 
 # target to build an object file
-hello_cmake.cpp.o:
-	$(MAKE) -f CMakeFiles/hello_cmake.dir/build.make CMakeFiles/hello_cmake.dir/hello_cmake.cpp.o
-.PHONY : hello_cmake.cpp.o
+test.cpp.o:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cpp.o
+.PHONY : test.cpp.o
 
-hello_cmake.i: hello_cmake.cpp.i
+test.i: test.cpp.i
 
-.PHONY : hello_cmake.i
+.PHONY : test.i
 
 # target to preprocess a source file
-hello_cmake.cpp.i:
-	$(MAKE) -f CMakeFiles/hello_cmake.dir/build.make CMakeFiles/hello_cmake.dir/hello_cmake.cpp.i
-.PHONY : hello_cmake.cpp.i
+test.cpp.i:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cpp.i
+.PHONY : test.cpp.i
 
-hello_cmake.s: hello_cmake.cpp.s
+test.s: test.cpp.s
 
-.PHONY : hello_cmake.s
+.PHONY : test.s
 
 # target to generate assembly for a file
-hello_cmake.cpp.s:
-	$(MAKE) -f CMakeFiles/hello_cmake.dir/build.make CMakeFiles/hello_cmake.dir/hello_cmake.cpp.s
-.PHONY : hello_cmake.cpp.s
+test.cpp.s:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cpp.s
+.PHONY : test.cpp.s
 
 # Help Target
 help:
@@ -158,10 +158,10 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... hello_cmake"
-	@echo "... hello_cmake.o"
-	@echo "... hello_cmake.i"
-	@echo "... hello_cmake.s"
+	@echo "... test"
+	@echo "... test.o"
+	@echo "... test.i"
+	@echo "... test.s"
 .PHONY : help
 
 

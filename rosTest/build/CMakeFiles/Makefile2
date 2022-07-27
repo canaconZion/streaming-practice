@@ -53,7 +53,7 @@ CMAKE_BINARY_DIR = /home/zion/workdir/githubProgram/gstreamerPractice/rosTest/bu
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/hello_cmake.dir/all
+all: CMakeFiles/test.dir/all
 
 .PHONY : all
 
@@ -63,36 +63,36 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/hello_cmake.dir/clean
+clean: CMakeFiles/test.dir/clean
 
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/hello_cmake.dir
+# Target rules for target CMakeFiles/test.dir
 
 # All Build rule for target.
-CMakeFiles/hello_cmake.dir/all:
-	$(MAKE) -f CMakeFiles/hello_cmake.dir/build.make CMakeFiles/hello_cmake.dir/depend
-	$(MAKE) -f CMakeFiles/hello_cmake.dir/build.make CMakeFiles/hello_cmake.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zion/workdir/githubProgram/gstreamerPractice/rosTest/build/CMakeFiles --progress-num=1,2 "Built target hello_cmake"
-.PHONY : CMakeFiles/hello_cmake.dir/all
+CMakeFiles/test.dir/all:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/depend
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zion/workdir/githubProgram/gstreamerPractice/rosTest/build/CMakeFiles --progress-num=1,2 "Built target test"
+.PHONY : CMakeFiles/test.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/hello_cmake.dir/rule: cmake_check_build_system
+CMakeFiles/test.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/zion/workdir/githubProgram/gstreamerPractice/rosTest/build/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/hello_cmake.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/test.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/zion/workdir/githubProgram/gstreamerPractice/rosTest/build/CMakeFiles 0
-.PHONY : CMakeFiles/hello_cmake.dir/rule
+.PHONY : CMakeFiles/test.dir/rule
 
 # Convenience name for target.
-hello_cmake: CMakeFiles/hello_cmake.dir/rule
+test: CMakeFiles/test.dir/rule
 
-.PHONY : hello_cmake
+.PHONY : test
 
 # clean rule for target.
-CMakeFiles/hello_cmake.dir/clean:
-	$(MAKE) -f CMakeFiles/hello_cmake.dir/build.make CMakeFiles/hello_cmake.dir/clean
-.PHONY : CMakeFiles/hello_cmake.dir/clean
+CMakeFiles/test.dir/clean:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/clean
+.PHONY : CMakeFiles/test.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

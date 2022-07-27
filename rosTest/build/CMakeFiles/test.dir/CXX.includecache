@@ -6,7 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/zion/workdir/githubProgram/gstreamerPractice/rosTest/hello_cmake.cpp
-iostream
+/home/zion/workdir/githubProgram/gstreamerPractice/rosTest/test.cpp
+gtest/gtest.h
+-
+vector
+-
+unordered_map
 -
 
