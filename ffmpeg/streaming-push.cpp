@@ -5,6 +5,7 @@ extern "C"
 #include <libavformat/avformat.h>
 #include <libavutil/mathematics.h>
 #include <libavutil/time.h>
+#include <libavutil/opt.h>
 #ifdef __cplusplus
 }
 #endif
@@ -13,18 +14,22 @@ extern "C"
 
 /**
  * compile:
- *  g++ -o output_file analysis_stream.cpp -lavformat -lavcodec -lavutil
+ *  g++ -o output_file streaming-push.cpp -lavformat -lavcodec -lavutil
+ *  gcc -o push_s streaming-push.cpp -lavformat -lavcodec -lavutil -lstdc++
  */
 
 int main()
 {
     AVFrame *pFrame;
     AVPacket pkt;
+    AVCodec *codec;
     AVOutputFormat *out = NULL;
-    AVCodecContext *codec = NULL;
+    AVCodecContext *c = NULL;
     AVFormatContext *in_ctx = NULL, *out_ctx = NULL;
-    char *in_file = "/home/video/recode/1681976244-bears.flv";
+    AVCodecParameters *in_codecpar = NULL;
+    char *in_file = "/home/zion/video/videos/mecha.mp4";
     char *out_url = "rtmp://192.168.1.247:1935/out/test";
+    char *codec_name = "libx264";
     int videoindex;
     int ret;
     int i;
@@ -87,6 +92,11 @@ int main()
         if (out_ctx->oformat->flags & AVFMT_GLOBALHEADER)
             // out_ctx->oformat->flags编解码器的选项和状态
             out_stream->codec->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
+        if (videoindex == i)
+        {
+            in_codecpar = in_stream->codecpar;
+            out_stream->codec->bit_rate = 400*1000;
+        }
     }
     av_dump_format(out_ctx, 0, out_url, 1);
     /**
@@ -95,6 +105,7 @@ int main()
      * 而是可以通过其他途径进行输出，
      * 例如网络传输
      */
+    // out_ctx->bit_rate = 40*1000;
     if (!(out->flags & AVFMT_NOFILE))
     {
         // 打开url
@@ -112,8 +123,49 @@ int main()
     std::cout << "Output srteam message" << std::endl;
     av_dump_format(out_ctx, 0, out_url, 1);
     start_time = av_gettime();
+    // 配置codec
+    codec = avcodec_find_encoder_by_name(codec_name);
+    if (!codec)
+    {
+        std::cout << "Codec " << codec_name << " not find" << std::endl;
+        goto end;
+    }
+    c = avcodec_alloc_context3(codec);
+    if (!c)
+    {
+        std::cout << "Could not allocate video codec context" << std::endl;
+        goto end;
+    }
+    if ((ret = avcodec_parameters_to_context(c, in_codecpar)) < 0)
+    {
+        std::cout << "Could not copy parameters to AVCodecContext" << std::endl;
+        goto end;
+    }
+    // 设置码率
+    c->bit_rate = 400 * 1000;
+    c->time_base = in_ctx->streams[videoindex]->time_base;
+    // 设置编码器预设值
+    if (codec->id == AV_CODEC_ID_H264)
+        av_opt_set(c->priv_data, "preset", "slow", 0);
+    if ((ret = avcodec_open2(c, codec, NULL)) < 0)
+    {
+        std::cout << "Could not open codec: " << codec_name << std::endl;
+    }
     // 初始化 AVFrame
     pFrame = av_frame_alloc();
+    if (!pFrame)
+    {
+        std::cout << "Could not allocate video frame" << std::endl;
+        goto end;
+    }
+    pFrame->format = c->pix_fmt;
+    pFrame->width = c->width;
+    pFrame->height = c->height;
+    if ((ret = av_frame_get_buffer(pFrame, 0)))
+    {
+        std::cout << "Could not allocate the video frame data" << std::endl;
+        goto end;
+    }
     /**
      * 上面部分是对输入视频的格式，编码等信息进行解析
      * 对输出的数据格式，编码等信息进行初始化
@@ -126,6 +178,11 @@ int main()
         if ((ret = av_read_frame(in_ctx, &pkt)) < 0)
         {
             std::cout << "Failed to read frame" << std::endl;
+            break;
+        }
+        if ((ret = av_frame_make_writable(pFrame)) < 0)
+        {
+            std::cout << "Frame data is not writeable" << std::endl;
             break;
         }
         int got_picture = 0;
@@ -163,6 +220,20 @@ int main()
         {
             frame_index++;
         }
+        // pFrame->pts = pkt.pts;
+        // ret = avcodec_send_frame(c, pFrame);
+        // if (ret < 0)
+        // {
+        //     std::cout << "Error sending a frame for encoding" << std::endl;
+        //     break;
+        // }
+        // ret = avcodec_receive_packet(c, &pkt);
+        // // if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
+        // //     break;
+        // if (ret < 0) {
+        //     std::cout << "Error during encoding" << std::endl;
+        //     break;
+        // }
         // 向输出文件写入一个数据包
         if ((ret = av_interleaved_write_frame(out_ctx, &pkt)) < 0)
         {
@@ -177,10 +248,14 @@ end:
     if (out_ctx && !(out_ctx->flags & AVFMT_NOFILE))
         avio_close(out_ctx->pb);
     avformat_free_context(out_ctx);
+    av_frame_free(&pFrame);
+    avcodec_free_context(&c);
+    // av_packet_free(&pkt);
     if (ret < 0 && ret != AVERROR_EOF)
     {
         printf("Error occurred.\n");
         return -1;
     }
+    std::cout << "end" << std::endl;
     return 0;
 }
