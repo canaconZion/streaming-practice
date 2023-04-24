@@ -6,6 +6,7 @@ extern "C"
 #include <libavutil/mathematics.h>
 #include <libavutil/time.h>
 #include <libavutil/opt.h>
+#include <libavcodec/avcodec.h>
 #ifdef __cplusplus
 }
 #endif
@@ -22,19 +23,23 @@ int main()
 {
     AVFrame *pFrame;
     AVPacket pkt;
+    AVCodec *decodec;
     AVCodec *codec;
     AVOutputFormat *out = NULL;
+    AVCodecContext *dc = NULL;
     AVCodecContext *c = NULL;
     AVFormatContext *in_ctx = NULL, *out_ctx = NULL;
     AVCodecParameters *in_codecpar = NULL;
     char *in_file = "/home/zion/video/videos/mecha.mp4";
     char *out_url = "rtmp://192.168.1.247:1935/out/test";
     char *codec_name = "libx264";
+    char *s;
     int videoindex;
     int ret;
     int i;
-    int frame_index = 0;
+    int frame_index = -1;
     int64_t start_time = 0;
+    AVDictionary *opts = NULL;
 
     avformat_network_init();
 
@@ -57,6 +62,32 @@ int main()
         }
     }
     av_dump_format(in_ctx, 0, in_file, 0);
+    // 解码器
+    // decodec = avcodec_find_decoder(AV_CODEC_ID_H264);
+    decodec = avcodec_find_decoder(in_ctx->streams[videoindex]->codecpar->codec_id);
+    if (!decodec)
+    {
+        std::cout << "Could not find decoder" << std::endl;
+        goto end;
+    }
+    dc = avcodec_alloc_context3(decodec);
+    if (!dc)
+    {
+        std::cout << "Could not allocate decoder" << std::endl;
+        goto end;
+    }
+    // 设置解码器选项
+    // avcodec_parameters_to_context(dc, in_ctx->streams[videoindex]->codecpar);
+    if ((ret = avcodec_parameters_to_context(dc, in_ctx->streams[videoindex]->codecpar)) < 0)
+    {
+        std::cout << "Could not copy parameters to AVCodecContext" << std::endl;
+        goto end;
+    }
+    if ((ret = avcodec_open2(dc, decodec, NULL)) < 0)
+    {
+        std::cout << "Failed to open H264 decoder" << std::endl;
+        goto end;
+    }
     if ((ret = avformat_alloc_output_context2(&out_ctx, NULL, "flv", out_url)) < 0)
     {
         std::cout << "Open push streaming url failed" << std::endl;
@@ -94,8 +125,9 @@ int main()
             out_stream->codec->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
         if (videoindex == i)
         {
+            // std::cout << "解码器" << in_stream->codec->codec_id << std::endl;
             in_codecpar = in_stream->codecpar;
-            out_stream->codec->bit_rate = 400*1000;
+            out_stream->codec->bit_rate = 400 * 1000;
         }
     }
     av_dump_format(out_ctx, 0, out_url, 1);
@@ -142,7 +174,6 @@ int main()
         goto end;
     }
     // 设置码率
-    c->bit_rate = 400 * 1000;
     c->time_base = in_ctx->streams[videoindex]->time_base;
     // 设置编码器预设值
     if (codec->id == AV_CODEC_ID_H264)
@@ -180,11 +211,11 @@ int main()
             std::cout << "Failed to read frame" << std::endl;
             break;
         }
-        if ((ret = av_frame_make_writable(pFrame)) < 0)
-        {
-            std::cout << "Frame data is not writeable" << std::endl;
-            break;
-        }
+        // if ((ret = av_frame_make_writable(pFrame)) < 0)
+        // {
+        //     std::cout << "Frame data is not writeable" << std::endl;
+        //     break;
+        // }
         int got_picture = 0;
         // 判断时间戳是否有效 AV_NOPTS_VALUE代表无效时间戳
         if (pkt.pts == AV_NOPTS_VALUE)
@@ -218,22 +249,49 @@ int main()
         pkt.pos = -1;
         if (pkt.stream_index == videoindex)
         {
+            using namespace std;
             frame_index++;
+            if ((ret = avcodec_send_packet(dc, &pkt)) < 0)
+            {
+                cout << "Error sending packet for decoding" << endl;
+                cout << ret << endl;
+                break;
+            }
+            while (ret >= 0)
+            {
+                ret = avcodec_receive_frame(dc, pFrame);
+                if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
+                    continue;
+                // if (ret == AVERROR_EOF)
+                //     break;
+                else if (ret < 0)
+                {
+                    cout << "Error during decoding" << endl;
+                    char errbuf[AV_ERROR_MAX_STRING_SIZE] = {0};
+                    av_strerror(ret, errbuf, AV_ERROR_MAX_STRING_SIZE);
+                    cout << errbuf << endl;
+                    goto end;
+                }
+            }
+            // pFrame->pts = pkt.pts;
+            ret = avcodec_send_frame(c, pFrame);
+            if (ret < 0)
+            {
+                std::cout << "Error sending a frame for encoding" << ret << std::endl;
+                char errStr[256] = { 0 };
+                av_strerror(ret, errStr, sizeof(errStr));
+                std::cout << "ERROR reason:" << errStr << std::endl;
+                break;
+            }
+            // ret = avcodec_receive_packet(c, &pkt);
+            // if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
+            //     break;
+            // if (ret < 0)
+            // {
+            //     std::cout << "Error during encoding" << std::endl;
+            //     break;
+            // }
         }
-        // pFrame->pts = pkt.pts;
-        // ret = avcodec_send_frame(c, pFrame);
-        // if (ret < 0)
-        // {
-        //     std::cout << "Error sending a frame for encoding" << std::endl;
-        //     break;
-        // }
-        // ret = avcodec_receive_packet(c, &pkt);
-        // // if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
-        // //     break;
-        // if (ret < 0) {
-        //     std::cout << "Error during encoding" << std::endl;
-        //     break;
-        // }
         // 向输出文件写入一个数据包
         if ((ret = av_interleaved_write_frame(out_ctx, &pkt)) < 0)
         {
@@ -241,6 +299,7 @@ int main()
             break;
         }
         av_free_packet(&pkt);
+        // av_frame_unref(pFrame);
     }
 end:
     // 释放资源
