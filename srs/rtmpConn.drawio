@@ -1,0 +1,196 @@
+<mxfile host="65bd71144e">
+    <diagram id="oRfjw8o35emr3UOJ3DWo" name="Page-1">
+        <mxGraphModel dx="818" dy="774" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="4" value="" style="edgeStyle=none;html=1;" parent="1" source="2" target="3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="srs_app_rtmp_conn.cpp&lt;br&gt;SrsRtmpConn::cycle()" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="30" y="70" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="" style="edgeStyle=none;html=1;" parent="1" source="3" target="5" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="" style="edgeStyle=none;html=1;" parent="1" source="3" target="7" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="srs_app_rtmp_conn.cpp&lt;br&gt;do_cycle()" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="230" y="70" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="srs_app_rtmp_conn.cpp&lt;br&gt;manager-&amp;gt;remove(this)&lt;br&gt;表示需要执行连接中断处理" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="425" y="70" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="" style="edgeStyle=none;html=1;" parent="1" source="7" target="9" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="srs_app_rtmp_conn.cpp&lt;br&gt;SrsRtmpConn::do_cycle()&lt;br&gt;处理RTMP协议" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="230" y="170" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="" style="edgeStyle=none;html=1;" parent="1" source="9" target="11" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="srs_app_rtmp_conn.cpp&lt;br&gt;rtmp-&amp;gt;handshake()&lt;br&gt;处理rtmp握手" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="230" y="280" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="" style="edgeStyle=none;html=1;" parent="1" source="11" target="14" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="srs_app_rtmp_conn.cpp&lt;br&gt;rtmp-&amp;gt;connect_app()&lt;br&gt;处理客户端connect信息" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="230" y="380" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="" style="edgeStyle=none;html=1;" parent="1" source="14" target="16" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="" style="edgeStyle=none;html=1;" parent="1" source="14" target="18" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="410" y="530"/>
+                            <mxPoint x="410" y="190"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="14" value="srs_app_rtmp_conn.cpp&lt;br&gt;service_cycle()&lt;br&gt;rtmp协议内容处理" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="230" y="500" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="srs_app_rtmp_conn.cpp&lt;br&gt;on_disconnect()&lt;br&gt;协议处理结束" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="230" y="620" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" value="" style="edgeStyle=none;html=1;" parent="1" source="18" target="20" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="srs_app_rtmp_conn.cpp&lt;br&gt;service_cycle()&lt;br&gt;rtmp协议内容处理" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="150" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="" style="edgeStyle=none;html=1;" parent="1" source="20" target="22" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="srs_app_rtmp_conn.cpp&lt;br&gt;rtmp-&amp;gt;set_window_ack_size()&lt;br&gt;表示本端发送多少报文后需要对端回应ACK响应" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="250" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="" style="edgeStyle=none;html=1;" parent="1" source="22" target="24" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="srs_app_rtmp_conn.cpp&lt;br&gt;rtmp-&amp;gt;set_in_window_ack_size()&lt;br&gt;表示本端接收多少报文后发送ACK响应" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="380" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="" style="edgeStyle=none;html=1;" parent="1" source="24" target="26" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="srs_app_rtmp_conn.cpp&lt;br&gt;........&lt;br&gt;一些配置和协议处理" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="500" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="" style="edgeStyle=none;html=1;" parent="1" source="26" target="28" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" value="srs_app_rtmp_conn.cpp&lt;br&gt;stream_service_cycle()&lt;br&gt;处理RTMP推拉流请求" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="600" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="" style="edgeStyle=none;html=1;" parent="1" source="28" target="30" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="28" value="srs_app_rtmp_conn.cpp&lt;br&gt;stream_service_cycle()&lt;br&gt;处理RTMP推拉流请求" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="700" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" value="" style="edgeStyle=none;html=1;" parent="1" source="30" target="32" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="srs_app_rtmp_conn.cpp&lt;br&gt;SrsRtmpConn::stream_service_cycle()" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="790" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="35" value="" style="edgeStyle=none;html=1;" parent="1" source="32" target="34" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="49" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="32" target="48">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="360" y="920"/>
+                            <mxPoint x="360" y="730"/>
+                            <mxPoint x="60" y="730"/>
+                            <mxPoint x="60" y="1080"/>
+                            <mxPoint x="660" y="1080"/>
+                            <mxPoint x="660" y="770"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="32" value="srs_app_rtmp_conn.cpp&lt;br&gt;rtmp-&amp;gt;identify_client()&lt;br&gt;协议交互" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="890" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="39" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="34" target="38">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="620" y="1030"/>
+                            <mxPoint x="620" y="260"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="34" value="srs_app_rtmp_conn.cpp&lt;br&gt;_srs_sources-&amp;gt;fetch_or_create()" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="1000" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="36" value="&lt;h1&gt;NOTE&lt;/h1&gt;&lt;p&gt;对于推流端&lt;/p&gt;&lt;p&gt;&amp;nbsp; &amp;nbsp; 每个推流端通过fetch_or_create函数生成一个对应的SrsLiveSource对象&lt;/p&gt;&lt;p&gt;对于拉流端&lt;/p&gt;&lt;p&gt;&amp;nbsp; &amp;nbsp; 1) 如果本机已经有对应推流端的SrsLiveSource对象,则根据拉流地址字符串(/live/stream)直接获取&lt;/p&gt;&lt;p&gt;&amp;nbsp; &amp;nbsp; 2) 如果本机没有对应推流端的SrsLiveSource对象，这里则会创建一个SrsLiveSource对象&lt;span style=&quot;background-color: initial;&quot;&gt;并在后续的SrsRtmpConn::playing()函数中，根据edge模式有一个回源拉流的操作&lt;/span&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="760" width="190" height="320" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" value="" style="shape=flexArrow;endArrow=classic;html=1;endWidth=22;endSize=12.82;width=15;" edge="1" parent="1" source="34" target="36">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="330" y="1000" as="sourcePoint"/>
+                        <mxPoint x="380" y="950" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="370" y="1030"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="41" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="38" target="40">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="860" y="260"/>
+                            <mxPoint x="860" y="100"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="43" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="38" target="42">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="860" y="260"/>
+                            <mxPoint x="860" y="200"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="45" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="38" target="44">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="860" y="260"/>
+                            <mxPoint x="860" y="320"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="47" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="38" target="46">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="860" y="260"/>
+                            <mxPoint x="860" y="430"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="38" value="srs_app_rtmp_conn.cpp&lt;br&gt;switch(info-&amp;gt;type)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="660" y="230" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="40" value="srs_app_rtmp_conn.cpp&lt;br&gt;case SrsRtmpConnPlay&lt;br&gt;拉流客户端类型" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="900" y="70" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="42" value="srs_app_rtmp_conn.cpp&lt;br&gt;case SrsRtmpConnFMLEPublish&lt;br&gt;标准ffmpeg推流端类型" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="900" y="170" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="44" value="srs_app_rtmp_conn.cpp&lt;br&gt;case SrsRtmpConnHaivisionPublish&lt;br&gt;海康设备推流" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="900" y="290" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="46" value="srs_app_rtmp_conn.cpp&lt;br&gt;case SrsRtmpFlashPublish&lt;br&gt;flash推流" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="900" y="400" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="48" value="srs_app_rtmp_conn.cpp&lt;br&gt;rtmp-&amp;gt;identify_client()&lt;br&gt;协议交互" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="700" y="740" width="160" height="60" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
