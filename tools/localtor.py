@@ -35,6 +35,7 @@ class IP:
 
 
 def get_localtor(ip):
+    # Download from https://cdn.jsdelivr.net/npm/geolite2-city@1.0.0/GeoLite2-City.mmdb.gz
     reader = geoip2.database.Reader('./GeoLite2-City.mmdb')
     response = reader.city(ip)
     print("IP:", response)
