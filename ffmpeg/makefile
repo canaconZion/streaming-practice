@@ -1,15 +1,15 @@
 INC_DIR = ./include
 BIN_DIR = ./bin
-SRC_DIR = ./src
+SRC_DIR = ./src/ffmpegPlayer
 OBJ_DIR = ./obj
 SDL_LIB_DIR = D:\soft\mingw\mingw64\msys\home\bin
 FFMPEG_LIB_DIR = D:\soft\mingw\mingw64\msys\home\zkPlayer-0.1\lib
 
-SRC = video_player.cpp
+SRC = $(wildcard $(SRC_DIR)/*.cpp)
 OBJ = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(notdir $(SRC)))
-LIB = -lavutil -lavformat -lavcodec -lavutil -lswscale -lSDL2
+LIB = -lavutil -lavformat -lavcodec -lavutil -lswscale -lswresample -lSDL2
 
-TARGET = video_player
+TARGET = simple_player
 BIN_TARGET = $(BIN_DIR)/$(TARGET)
 
 CC = g++
