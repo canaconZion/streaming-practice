@@ -1,0 +1,7 @@
+<video class="" controls autoplay style="" id="video">
+<script src="/vod/jswebrtc.js"></script>
+<script>
+var video = document.getElementById('video');
+var url = 'webrtc://localhost/live/livestream';
+var player = new JSWebrtc.Player(url, { video: video, autoplay: true,  });
+</script>
