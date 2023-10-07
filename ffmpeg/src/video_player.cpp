@@ -1,7 +1,7 @@
 /**
  * compile
- * g++ video_player.cpp -o D:\soft\mingw\mingw64\msys\home\Administrator\workdir\streaming-practice\ffmpeg\compiled\simplePlayer -ID:\soft\mingw\mingw64\msys\home\Administrator\workdir\streaming-practice\ffmpeg\include\SDL2 -LD:\soft\mingw\mingw64\msys\home\bin -ID:\soft\mingw\mingw64\msys\home\zkPlayer-0.1\include -LD:\soft\mingw\mingw64\msys\home\zkPlayer-0.1/lib -lavutil -lavformat -lavcodec -lavutil -lswscale -lSDL2
- */
+ * g++ video_player.cpp -o D:\soft\mingw\mingw64\msys\home\Administrator\workdir\streaming-practice\ffmpeg\bin\simplePlayer -ID:\soft\mingw\mingw64\msys\home\Administrator\workdir\streaming-practice\ffmpeg\include -LD:\soft\mingw\mingw64\msys\home\bin -ID:\soft\mingw\mingw64\msys\home\zkPlayer-0.1\include -LD:\soft\mingw\mingw64\msys\home\1007\lib -lavutil -lavformat -lavcodec -lavutil -lswscale -lSDL2
+ **/
 
 #include <iostream>
 extern "C"
@@ -13,6 +13,7 @@ extern "C"
 #include "SDL2/SDL.h"
 }
 #include <windows.h>
+#include <thread>
 using namespace std;
 
 #define SFM_REFRESH_EVENT (SDL_USEREVENT + 1)
@@ -20,6 +21,7 @@ using namespace std;
 
 int thread_exit = 0;
 int thread_pause = 0;
+int64_t frameDurationUs;
 
 int sfp_refresh_thread(void *opaque)
 {
@@ -34,7 +36,12 @@ int sfp_refresh_thread(void *opaque)
             event.type = SFM_REFRESH_EVENT;
             SDL_PushEvent(&event);
         }
-        SDL_Delay(40);
+        else
+        {
+            printf("Pause\n");
+        }
+        SDL_Delay(frameDurationUs / 1000 + 6);
+        // std::this_thread::sleep_for(std::chrono::microseconds(frameDurationUs));
     }
     thread_exit = 0;
     thread_pause = 0;
@@ -66,6 +73,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     SDL_Rect sdlRect_1, sdlRect_2, sdlRect_3, sdlRect_4;
     SDL_Thread *video_tid;
     SDL_Event event;
+
+    // video play control
+    bool do_seek = false;
+    int64_t seek_length = 5;
+    int rem_seek;
+    int64_t seek_pos;
+    int seek_dir;
 
     struct SwsContext *img_convert_ctx;
 
@@ -113,6 +127,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         if (pFormatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO)
         {
             videoindex = i;
+            AVRational timebase = pFormatCtx->streams[i]->time_base;
+            AVRational frameRate = av_guess_frame_rate(pFormatCtx, pFormatCtx->streams[i], NULL);
+            frameDurationUs = av_rescale_q(1, av_inv_q(frameRate), AV_TIME_BASE_Q);
+            printf("Frame duration: %lld microseconds\n", frameDurationUs);
+            printf("TimeBase: %d/%d\n", timebase.num, timebase.den);
+            rem_seek = seek_length;
+            seek_length *= timebase.den;
+            printf("seek length: %d\n", seek_length);
             break;
         }
     }
@@ -206,6 +228,26 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
                 if (packet->stream_index == videoindex)
                     break;
             }
+            if (do_seek)
+            {
+                printf("current packet pts: %d\n", packet->pts);
+                if (seek_dir)
+                {
+                    printf("Fast Forward %d s \n", rem_seek);
+                    seek_pos = packet->pts + seek_length;
+                }
+                else
+                {
+                    printf("Rewind %d s \n", rem_seek);
+                    seek_pos = packet->pts - seek_length;
+                }
+                if (av_seek_frame(pFormatCtx, videoindex, seek_pos, AVSEEK_FLAG_BACKWARD) < 0)
+                {
+                    printf("Error while seeking\n");
+                    return -1;
+                }
+                do_seek = false;
+            }
             ret = avcodec_decode_video2(pCodecCtx, pFrame, &got_picture, packet);
             if (ret < 0)
             {
@@ -234,6 +276,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         {
             if (event.key.keysym.sym == SDLK_SPACE)
                 thread_pause = !thread_pause;
+            else if (event.key.keysym.sym == SDLK_LEFT)
+            {
+                // cout << "Rewind" << endl;
+                do_seek = true;
+                seek_dir = 0;
+            }
+            else if (event.key.keysym.sym == SDLK_RIGHT)
+            {
+                do_seek = true;
+                seek_dir = 1;
+            }
+            else if (event.key.keysym.sym == SDLK_q)
+            {
+                thread_exit = 1;
+            }
         }
         else if (event.type == SDL_QUIT)
         {
@@ -244,6 +301,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
             break;
         }
     }
+    cout << "Quit play" << endl;
     sws_freeContext(img_convert_ctx);
 
     SDL_Quit();
