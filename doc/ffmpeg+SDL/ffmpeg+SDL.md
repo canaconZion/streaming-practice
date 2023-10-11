@@ -1,5 +1,5 @@
 # FFMPEG+SDL简单视频播放器——视频快进
-之前写过一个关于[视频播放器](https://www.cnblogs.com/Azion/p/17525955.html)的文章。播放器只简单实现了视频播放的功能，在此功能的基础上，给它加上一个视频快进的功能。
+之前写过一篇关于[视频播放器](https://www.cnblogs.com/Azion/p/17525955.html)的文章。播放器只简单实现了视频播放的功能，在此功能的基础上，给它加上一个视频快进的功能。
 ## 实现
 ### 添加参数
 ```cpp
@@ -88,6 +88,21 @@ if (do_seek)
 }
 ...
 ```
+视频快进用到的核心函数为av_seek_frame。
+av_seek_frame用于在媒体文件中寻找指定的帧（或者说时间位置）。这个函数通常用于跳转到媒体文件中的特定时间点或帧，以便从那里开始播放或处理媒体数据。
+
+函数的一般形式为：
+```cpp
+int av_seek_frame(AVFormatContext *s, int stream_index, int64_t timestamp, int flags);
+```
+参数说明：
+- s: AVFormatContext 结构体，表示媒体文件的上下文，包括媒体文件的信息和流信息。
+- stream_index: 要寻找的流的索引。
+- timestamp: 要寻找的时间位置，以微秒为单位。可以使用 AV_TIME_BASE 来进行时间单位的转换。
+- flags: 控制寻找行为的标志。
+
+这个函数的返回值通常是零或正数，表示成功的跳转，或者是一个负数，表示出现了错误。
+av_seek_frame 可以用于不同的媒体文件格式，包括音频、视频以及它们的组合。在视频播放器、音频编辑器等多媒体应用程序中，这个函数通常用于用户拖动进度条、跳转到指定时间点或进行其他用户交互操作。
 ### 源码
 https://github.com/canaconZion/streaming-practice/blob/main/ffmpeg/src/video_player.cpp
 
