@@ -1,8 +1,3 @@
-/**
- * compile
- * g++ video_player.cpp -o D:\soft\mingw\mingw64\msys\home\Administrator\workdir\streaming-practice\ffmpeg\bin\simplePlayer -ID:\soft\mingw\mingw64\msys\home\Administrator\workdir\streaming-practice\ffmpeg\include -LD:\soft\mingw\mingw64\msys\home\bin -ID:\soft\mingw\mingw64\msys\home\zkPlayer-0.1\include -LD:\soft\mingw\mingw64\msys\home\1007\lib -ID:\workdir\opencv\build\install\include -LD:\workdir\opencv\build\lib -lavutil -lavformat -lavcodec -lavutil -lswscale -lSDL2 -llibopencv_core480 -llibopencv_imgcodecs480 -lopencv_highgui480 -lopencv_objdetect480 -lopencv_imgproc480
- **/
-
 #include <iostream>
 extern "C"
 {
