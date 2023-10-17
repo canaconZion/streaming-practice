@@ -1,3 +1,0 @@
-/home/zion/workdir/githubProgram/gstreamerPractice/rosTest/build/CMakeFiles/rebuild_cache.dir
-/home/zion/workdir/githubProgram/gstreamerPractice/rosTest/build/CMakeFiles/edit_cache.dir
-/home/zion/workdir/githubProgram/gstreamerPractice/rosTest/build/CMakeFiles/test.dir
