@@ -135,6 +135,10 @@ ffmpeg -i input.mp4 -b:v 1500k output.mp4
 ```
 ffmpeg -i input.mp4 -s 1280x720 output.mp4
 ```
+### 12. 检测视频源是否失效
+```
+ffmpeg -i <source> -f null -
+```
 ## 补充
 除了上述给出的参数外，ffmpeg还有很多参数，如果我们使用命令行对视频进行处理后，没有达到想要的效果，那么就有可能是ffmpeg的参数配置出现了问题，可以参考ffmpeg的[官方文档](https://ffmpeg.org/ffmpeg.html)来获取更多的参数用法。
 当有一些特定的需求需要实现，但是又不知道该使用ffmpeg的哪些参数时，可以尝试使用**FFmpeg Commander**工具，你可以根据自己的需求手动选择配置，他可以帮你快速生成ffmpeg的命令行。
